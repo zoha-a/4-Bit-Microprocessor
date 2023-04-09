@@ -5,18 +5,18 @@ https://simulator.io/board/ftYGkLoovG
 Assignment 01
 
 ROM:
-Rom use toggle diode to point to the address of the instruction. Adding a toggle diode represents a 1 and no toggle diode represents a 0 which is used to represent binary values to represent instructions.
+Rom uses toggle diode to point to the address of the instruction. Adding a toggle diode represents a 1 and no toggle diode represents a 0 which is used to represent binary values to represent instructions.
 
 Instruction Set Architecture (ISA)
-1)	0x00	OUT
-2)	0x01	LDI k
-3)	0x02	SWAP
-4)	0x03	ADD
-5)	0X04	SUB
-6)	0X05	AND
-7)	0X06	OR
-8)	0X07	XOR
-9)	0X08	NOT
+1)	0x00	OUT (from Register A)
+2)	0x01	LDI k (to Register A)
+3)	0x02	SWAP (Register A and B)
+4)	0x03	ADD (Register A and B and save into A)
+5)	0X04	SUB (Register A and B and save into A)
+6)	0X05	AND (Register A and B and save into A)
+7)	0X06	OR (Register A and B and save into A)
+8)	0X07	XOR (Register A and B and save into A)
+9)	0X08	NOT (Register A and B and save into A)
 
 Register A and B:
 Register A and B store values of A and B respectively, 4 D flip flips are used for each, each flip flop stores a binary value (byte).
@@ -57,10 +57,10 @@ Instruction Set Architecture Briefing
  
 OUT allows us to display whatever is currently loaded in register A. The bubbles correspond to the op-code that we’ve set for the OUT instruction.  When that is received, the second AND gate waits for the execution clock, sending a signal to the I/O controller’s clock and displaying the data. The data is sent into the I/Os using the Data Output of register A. The I/O controllers are 4 D flip flops where we’ll be storing data before we send it forward for display.
 
-2. LDI
+2. LDI:
 We can load any value we want into Register A. The bubbles correspond to the op-code that we’ve set for the LDI instruction. We then feed the output of the first AND gate into the lower four ones, which will only be high when the LDI instruction is called. The second input comes from the parameter register, where the value that we want to load is presented. We then AND these two values, and the value of the parameter register is loaded into register A. The output of the first AND gate also serves as a clock to register A. We once again, send a signal back to the Control Unit as an indication that execution is done. This will be done in all operations to send the clock to the JK flip flop that cycles through.
 
-3. SWAP
+3. SWAP:
 The SWP function is a simple function that swaps the contents of register A and B. The AND gates in there basically take one input from the first AND gates’ output which is activated whenever the SWP function is called. The second input for the upper 4 gates are the contents of register B, which are fed into the register A. The lower 4 do the same things, with the roles of A and B reversed. We then take the first gate’s output and feed it into the clock of the register A and B and by doing this, the clock is fed every time the SWP function is called. 
 
 Next we have the ALU instructions including the ADD, SUB, AND, OR, XOR and NOT. These will be covered in the ALU part.
@@ -93,3 +93,22 @@ Same logic has been applied as AND and OR . The only difference is that we first
 The NOT instruction has been implemented by first NOT the bits of register A and then AND its output with the output of NOT instruction which is then sent to ‘write register A’  which is then stored in register A.
 
 ![image](https://user-images.githubusercontent.com/76551920/230782489-79e4c235-8ce2-4561-9d2a-25f0b692d587.png)
+
+Working of Subcycle Using Sample Code:
+We have written a sample code as attached. The values are: 1, 1, 2, 1, 3, 3. This translates to
+LDI 1
+SWAP
+LDI 3
+ADD
+OUT
+
+![image](https://user-images.githubusercontent.com/76551920/230782836-7014cda5-1084-44f0-8bfa-9d3ac48c1cd8.png)
+
+Design Choices:
+We decided to save space on ALU registers as the task of writing minimum five instructions were basic and did not require repeated arithmetic. Hence, we efficiently integrated the ISA and ALU.
+
+Workload
+1. Zoha Ahmed: Creation of SWAP, ADD, SUB, helped with Control Unit
+2. Ayesha Azhar: Creation of AND, OR, XOR, NOT instructions
+3. Ahmad Faisal: Creation of Control Unit and LDI
+4. Bilal Haseeb Hashmi: Creation of ROM, Registers and OUT
