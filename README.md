@@ -5,7 +5,7 @@ https://simulator.io/board/ftYGkLoovG
 Assignment 01
 
 ROM:
-Rom uses toggle diode to point to the address of the instruction. Adding a toggle diode represents a 1 and no toggle diode represents a 0 which is used to represent binary values to represent instructions.
+Rom use toggle diode to point to the address of the instruction. Adding a toggle diode represents a 1 and no toggle diode represents a 0 which is used to represent binary values to represent instructions.
 
 Instruction Set Architecture (ISA)
 1)	0x00	OUT
